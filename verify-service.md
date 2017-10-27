@@ -4,7 +4,7 @@
 ```
 # ps -ef | grep <Process - Name>
 # ps -ef | grep http
-``
+```
 
 ### 2) check the port was opened or not.
 ```
