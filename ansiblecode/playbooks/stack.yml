@@ -1,0 +1,27 @@
+#### Main Stack 
+
+- name: Install web server
+  hosts: all
+  become: yes
+  vars:
+    MODJK_URL: "http://www-eu.apache.org/dist/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz"
+  tasks:
+    - name: Install web server packages
+      package:
+        name: "{{item}}"
+        state: latest
+      with_items:
+        - httpd
+        - httpd-devel
+        - gcc
+    
+    - name: Start httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+        
+    - name: Download mod_jk tar file
+      get_url:
+        url: "{{MODJK_URL}}"
+        dest: /opt/tomcat-connectors-1.2.42-src.tar.gz

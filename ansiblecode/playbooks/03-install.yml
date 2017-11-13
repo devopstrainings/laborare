@@ -1,0 +1,12 @@
+- name: Install a package
+  hosts: all
+  #become: yes
+  tasks:
+    - name: Install gcc package
+      become: yes
+      package:
+        name: gcc
+        state: present
+    - name: Print some message
+      debug:
+        msg: 'Some message'

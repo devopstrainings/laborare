@@ -1,0 +1,7 @@
+10.142.0.8
+
+[dev]
+10.142.0.8
+
+[dev:vars]
+package_name=java

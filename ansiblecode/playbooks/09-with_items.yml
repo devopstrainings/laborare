@@ -1,0 +1,9 @@
+- name: Use with_items
+  hosts: all
+  tasks:
+    - name: Print packages list
+      debug:
+        msg: "Package Name = {{ item }}"
+      with_items:
+        - httpd
+        - httpd-devel

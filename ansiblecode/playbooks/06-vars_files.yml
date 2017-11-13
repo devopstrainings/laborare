@@ -1,0 +1,10 @@
+- name: Install package
+  hosts: all
+  become: yes
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Install "{{package_name}}" package
+      package:
+        name: "{{package_name}}"
+        state: latest

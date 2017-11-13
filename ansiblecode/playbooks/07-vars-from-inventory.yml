@@ -1,0 +1,8 @@
+- name: Install package
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install "{{package_name}}" package
+      package:
+        name: "{{package_name}}"
+        state: latest

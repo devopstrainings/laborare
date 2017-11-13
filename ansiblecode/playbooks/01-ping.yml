@@ -1,0 +1,5 @@
+- name: Ping Test Playbook 
+  hosts: all
+  tasks:
+    - name: Checking Ping
+      ping:

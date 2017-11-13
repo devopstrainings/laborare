@@ -1,0 +1,10 @@
+- name: Install package
+  hosts: all
+  become: yes
+  vars:
+    package_name: vsftpd
+  tasks:
+    - name: Install package
+      package:
+        name: "{{package_name}}"
+        state: latest
