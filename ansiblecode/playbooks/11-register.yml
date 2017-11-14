@@ -1,0 +1,17 @@
+- name: Run shell command
+  hosts: all
+  tasks:
+    - name: Run sample command
+      shell: ls /boot
+      register: OUT
+      
+    - name: Print output
+      debug:
+        msg: "{{OUT}}"
+    
+    - name: set a variable
+      set_fact:
+        EXIT_STATUS : "{{OUT.rc}}"
+    - name: print exit status
+      debug:
+        msg: "{{EXIT_STATUS}}"

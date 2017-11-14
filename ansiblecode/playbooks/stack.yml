@@ -20,8 +20,56 @@
         name: httpd
         state: started
         enabled: yes
+
+# Commented because unarhive module can download and extract     
+#    - name: Get tar file name
+#      shell: "echo {{MODJK_URL}} | awk -F / '{print $NF}'"
+#      register: out
+    
+#    - name: set tar file variable
+#      set_fact:
+#        MODJK_TARFILE : "/opt/{{out.stdout}}"
+ 
+    - name: Get tar directory name
+      shell: "echo {{MODJK_URL}} | awk -F / '{print $NF}' | sed -e 's/.tar.gz//'"
+      register: out
+      
+    - name: set tar directory variable
+      set_fact:
+        MODJK_TARDIR : "/opt/{{out.stdout}}"
+
+# Commented because unarhive module can download and extract        
+#    - name: Download mod_jk tar file
+#      get_url:
+#        url: "{{MODJK_URL}}"
+#        dest: "{{MODJK_TARFILE}}"
         
-    - name: Download mod_jk tar file
-      get_url:
-        url: "{{MODJK_URL}}"
-        dest: /opt/tomcat-connectors-1.2.42-src.tar.gz
+    - name: Extract the tar file
+      unarchive:
+        src: "{{MODJK_URL}}"
+        dest: /opt
+        remote_src: yes
+   
+    - name: check for /etc/httpd/modules/mod_jk.so
+      stat: 
+        path: /etc/httpd/modules/mod_jk.so
+      register: out
+      
+    - name: Compile mod_jk
+      shell: "./configure --with-apxs=/bin/apxs && make clean && make && make install"
+      args:
+        chdir: "{{MODJK_TARDIR}}/native"
+      when: out.stat.exists == false
+      
+    - name: Copy mod_jk config file
+      copy:
+        src: "files/{{item}}"
+        dest: "/etc/httpd/conf.d/{{item}}"
+      with_items:
+        - mod_jk.conf
+        - workers.properties
+    
+    
+    
+    
+    

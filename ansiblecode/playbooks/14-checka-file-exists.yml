@@ -1,0 +1,13 @@
+- name: Check afile
+  hosts: all
+  tasks:
+    - stat:
+        path: /etc/httpd/modules/mod_jk.so
+      register: out
+      
+    - debug:
+        msg: "{{out}}"
+        
+    - debug: 
+        msg: "Yes file exists"
+      when: out.stat.exists == true
