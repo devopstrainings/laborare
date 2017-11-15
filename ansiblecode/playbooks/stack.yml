@@ -3,6 +3,8 @@
 - name: Install web server
   hosts: all
   become: yes
+  tags:
+    - web
   vars:
     MODJK_URL: "http://www-eu.apache.org/dist/tomcat/tomcat-connectors/jk/tomcat-connectors-1.2.42-src.tar.gz"
   tasks:
@@ -69,7 +71,65 @@
         - mod_jk.conf
         - workers.properties
     
+- name: Install App server
+  hosts: all
+  become: yes
+  tags:
+    - app
+  vars:    
+    TOMCAT_URL: "http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.1/bin/apache-tomcat-9.0.1.tar.gz"
+  tasks:
+    - name: Install Java
+      package:
+        name: java
+        state: latest
+  
+    - name: Get the tomcat directory.
+      shell: "echo ${{TOMCAT_URL}} | awk -F / '{print $NF}' | sed -e 's/.tar.gz//'"
+      register: out
+      
+    - name: set tomcat directory variable
+      set_fact:
+        TOMCAT_DIR: "/opt/{{out.stdout}}"      
+        
+    - name: Check tomcat directory exists or not
+      stat:
+        path: "{{TOMCAT_DIR}}"
+      register: out
+      
+    - name: Download and extract tomcat
+      unarchive:
+        src: "{{TOMCAT_URL}}"
+        dest: /opt
+        remote_src: yes      
+      when: out.stat.exists == false
+        
+    - name: Remove existing student files
+      file:
+        path: "{{TOMCAT_DIR}}/webapps/{{item}}"
+        state: absent
+      with_items:
+        - student
+        - student.war
+    - name: Download student application
+      get_url:
+        url: "https://github.com/devopstrainings/laborare/raw/master/APPSTACK/student.war"
+        dest: "{{TOMCAT_DIR}}/webapps/student.war"
+  
+    - name: Download MySQL jar file
+      get_url:
+        url: "https://github.com/carreerit/cogito/raw/master/appstack/mysql-connector-java-5.1.40.jar"
+        dest: "{{TOMCAT_DIR}}/lib/mysql-connector-java-5.1.40.jar"
+  
+    - name: copy context.xml file
+      copy:
+        src: files/context.xml
+        dest: "{{TOMCAT_DIR}}/conf/context.xml"
+  
+    - name: start tomcat service
+      shell: nohup sh {{TOMCAT_DIR}}/bin/startup.sh
+
     
-    
-    
+  
+  
     

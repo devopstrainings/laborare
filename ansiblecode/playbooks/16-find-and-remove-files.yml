@@ -1,0 +1,19 @@
+- name: Find and remove files
+  hosts: all
+  become: yes
+  tasks:
+    - name: Find the files ending with .txt
+      find:
+        paths: /tmp/demo
+        patterns: "*.txt"
+      register: out
+      
+    - name: print o/p
+      debug:
+        msg: "{{out}}"
+    
+    - name: remove the files
+      file:
+        name: "{{item.path}}"
+        state: absent
+      with_items: "{{out.files}}"

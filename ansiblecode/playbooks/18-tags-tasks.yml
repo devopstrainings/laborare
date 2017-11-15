@@ -1,0 +1,12 @@
+- name: INSTALL
+  hosts: all
+  tasks:
+    - debug:
+        msg: "INSTALL PLAY"
+      tags:
+        - install
+        
+    - debug:
+        msg: "CONFIGURE PLAY"
+      tags:
+        - configure
