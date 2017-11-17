@@ -1,0 +1,12 @@
+- name: show facts ussage
+  hosts: all
+  #gather_facts: no
+  tasks:
+    - debug:
+        msg: "Hello from CentOS"
+      when: ansible_distribution == 'CentOS'
+    - debug:
+        msg: "Hello from Ubuntu"
+      when: ansible_distribution == 'Ubuntu'
+    
+    

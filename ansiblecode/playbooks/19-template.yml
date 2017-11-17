@@ -1,0 +1,13 @@
+- name: Copy a template
+  hosts: all
+  become: yes
+  vars:
+    DBUSERNAME: sample 
+    DBPASSWORD: sample@1
+    DBCLIENT: localhost
+  tasks:
+    - name: Copy a template
+      template:
+        src: templates/student.sql.j2
+        dest: /tmp/student.sql
+        

@@ -129,7 +129,48 @@
     - name: start tomcat service
       shell: nohup sh {{TOMCAT_DIR}}/bin/startup.sh
 
-    
-  
+- name: Install DB server
+  hosts: all
+  become: yes
+  vars:
+    DBUSERNAME: studnet 
+    DBPASSWORD: student@1
+    DBCLIENT: localhost
+  tags:
+    - db
+  tasks:
+    - name: Install mariadb
+      package:
+        name: "{{item}}"
+        state: latest    
+      with_items:
+        - mariadb-server
+        - mariadb
+        - MySQL-python
+        
+    - name: Start mariadb
+      service:
+        name: mariadb
+        state: started
+        
+    - name: copy student.sql file
+      template:
+        src:  templates/student.sql.j2
+        dest: /tmp/student.sql
+        
+    - name: create stuentapp DB
+      mysql_db:
+        name: studentapp
+        state: present
+
+    - name: run student.sql file
+      mysql_db:
+        state: import
+        name: all
+        target: /tmp/student.sql
+      
+      
+      
+      
   
     

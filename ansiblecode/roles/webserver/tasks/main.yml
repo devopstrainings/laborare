@@ -1,0 +1,14 @@
+- name: print sample from role
+  debug:
+    msg: Heloo from role
+  
+- debug:
+    msg: "Hello {{NAME}}"
+    
+- copy:
+    src: sample
+    dest: /tmp/sample
+
+- template:
+    src: demo.j2
+    dest: /tmp/demo

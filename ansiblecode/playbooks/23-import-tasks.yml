@@ -1,0 +1,7 @@
+- name: Show import-tasks
+  hosts: all
+  tasks:
+    - debug:
+        msg: "Hello from main playbook"
+    
+    - import_tasks: sample1.yml
