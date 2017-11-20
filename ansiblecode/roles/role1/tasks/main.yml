@@ -1,0 +1,2 @@
+- debug:
+    msg: "Hello from {{ROLE_NAME}}"
