@@ -1,5 +1,9 @@
 - name: Ping Test Playbook 
   hosts: all
+  vars:
+    sample: sample
   tasks:
     - name: Checking Ping
       ping:
+    - debug: 
+        msg: "{{sample}} Hello world "
