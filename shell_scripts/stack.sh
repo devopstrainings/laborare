@@ -11,7 +11,7 @@ TOMCAT_CONN_URL="http://www-us.apache.org/dist/tomcat/tomcat-connectors/jk/tomca
 CONN_TAR_FILE=$(echo $TOMCAT_CONN_URL | awk -F / '{print $NF}')
 CONN_TAR_DIR=$(echo $CONN_TAR_FILE | sed -e 's/.tar.gz//')
 
-TOMCAT_URL=http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.1/bin/apache-tomcat-9.0.1.tar.gz
+TOMCAT_URL=http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.2/bin/apache-tomcat-9.0.2.tar.gz
 TOMCAT_TAR_FILE=$(echo $TOMCAT_URL | awk -F / '{print $NF}')
 TOMCAT_DIR=$(echo $TOMCAT_TAR_FILE | sed -e 's/.tar.gz//')
 
