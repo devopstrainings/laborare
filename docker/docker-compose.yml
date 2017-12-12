@@ -1,0 +1,12 @@
+version: '3'
+services:
+  web:
+    image: httpd
+    ports:
+    - "80:80"
+
+  tomcat:
+    image: tomcat
+    ports:
+    - "8080:8080"
+    - "8009:8009"
