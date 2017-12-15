@@ -56,6 +56,7 @@ LENV() {
 	Print NL Success G
 	wget https://raw.githubusercontent.com/carreerit/altus/master/enable-password-auth.sh -O /sbin/enable-password-auth.sh &>/dev/null
 	chmod +x /sbin/enable-password-auth.sh
+	sed -i -e '/curl=/ d' -e '$ i alias curl="curl -s"' /etc/bashrc
 }
 
 if [ `id -u` -ne 0 ]; then 
