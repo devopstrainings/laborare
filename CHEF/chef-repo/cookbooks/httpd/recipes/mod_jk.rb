@@ -1,24 +1,4 @@
-#
-# Cookbook:: httpd
-# Recipe:: default
-#
-# Copyright:: 2017, The Authors, All Rights Reserved.
-
-#package 'Installing HTTPD package' do 
-#  package_name [ 'httpd', 'httpd-devel']
-#  action :install
-#end
-
-#URL='www.google.com'
-#puts "#{node['URL']}"
-puts "URL = #{node['httpd']['default']['URL']}"
-
-%w(httpd httpd-devel gcc).each do |pack_name|
-  package "Installing #{pack_name}" do 
-	package_name "#{pack_name}"
-	action :install
-  end
-end
+include_recipe 'httpd::install'
 
 remote_file "#{node['httpd']['default']['TARFILE']}" do
   source "#{node['httpd']['default']['MODJK_URL']}"
@@ -56,5 +36,3 @@ service 'Starting Web Service' do
 	service_name 'httpd'
 	action [ :restart, :enable ]
 end
-
-

@@ -6,3 +6,5 @@ TAR = default['httpd']['default']['MODJK_URL'].split('/').last
 TARDIR= TAR.gsub(".tar.gz", "")
 default['httpd']['default']['TARFILE']="#{LOC}/#{TAR}"
 default['httpd']['default']['TARDIR']="#{LOC}/#{TARDIR}"
+
+default['httpd']['default']['WORKER']='127.0.0.1'
